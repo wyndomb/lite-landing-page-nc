@@ -68,6 +68,14 @@ interface SubstackData {
 
 const LandingPage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [heroName, setHeroName] = useState("");
+  const [heroEmail, setHeroEmail] = useState("");
+  const [heroMessage, setHeroMessage] = useState("");
+  const [isHeroSubmitting, setIsHeroSubmitting] = useState(false);
+  const [ctaName, setCtaName] = useState("");
+  const [ctaEmail, setCtaEmail] = useState("");
+  const [ctaMessage, setCtaMessage] = useState("");
+  const [isCtaSubmitting, setIsCtaSubmitting] = useState(false);
   const [substackUrl, setSubstackUrl] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [previewData, setPreviewData] = useState<SubstackData | null>(null);
@@ -104,6 +112,55 @@ const LandingPage: React.FC = () => {
       linkText: "Define Your Brand Voice",
     },
   ];
+
+  const handleHeroSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!heroName || !heroEmail) {
+      setHeroMessage("Please fill out both name and email.");
+      return;
+    }
+    setIsHeroSubmitting(true);
+    setHeroMessage("Submitting...");
+
+    // This is a placeholder for a real API call.
+    // In a real application, you would send the data to your backend,
+    // which would then securely forward it to the Typeform API.
+    // Directly calling a third-party API from the client is not recommended for production.
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // Simulate a successful submission
+    setIsHeroSubmitting(false);
+    setHeroMessage("Thank you for subscribing!");
+    setHeroName("");
+    setHeroEmail("");
+
+    // Reset the message after a few seconds
+    setTimeout(() => {
+      setHeroMessage("");
+    }, 5000);
+  };
+
+  const handleCtaSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!ctaName || !ctaEmail) {
+      setCtaMessage("Please fill out both name and email.");
+      return;
+    }
+    setIsCtaSubmitting(true);
+    setCtaMessage("Submitting...");
+
+    // Placeholder for API call
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setIsCtaSubmitting(false);
+    setCtaMessage("Thank you for subscribing!");
+    setCtaName("");
+    setCtaEmail("");
+
+    setTimeout(() => {
+      setCtaMessage("");
+    }, 5000);
+  };
 
   const analyzeSubstack = async () => {
     if (!substackUrl.trim()) return;
@@ -243,26 +300,7 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="#features"
-                className="text-gray-600 hover:text-gold transition-colors"
-              >
-                Features
-              </a>
-              <a
-                href="#testimonials"
-                className="text-gray-600 hover:text-gold transition-colors"
-              >
-                Reviews
-              </a>
-              <a
-                href="#"
-                className="bg-gold text-charcoal px-6 py-2 rounded-lg hover:opacity-90 transition-opacity"
-              >
-                Start Free Trial
-              </a>
-            </div>
+            <div className="hidden md:flex items-center space-x-8"></div>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
@@ -282,26 +320,7 @@ const LandingPage: React.FC = () => {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <div className="md:hidden py-4 border-t border-gray-200">
-              <div className="flex flex-col space-y-4">
-                <a
-                  href="#features"
-                  className="text-gray-600 hover:text-gold transition-colors"
-                >
-                  Features
-                </a>
-                <a
-                  href="#testimonials"
-                  className="text-gray-600 hover:text-gold transition-colors"
-                >
-                  Reviews
-                </a>
-                <a
-                  href="#"
-                  className="bg-gold text-charcoal px-6 py-2 rounded-lg hover:opacity-90 transition-opacity w-full"
-                >
-                  Start Free Trial
-                </a>
-              </div>
+              <div className="flex flex-col space-y-4"></div>
             </div>
           )}
         </div>
@@ -320,16 +339,37 @@ const LandingPage: React.FC = () => {
               and grow your subscriber base 3x faster with AI that actually
               understands your brand voice and audience.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+            <form
+              onSubmit={handleHeroSubmit}
+              className="flex flex-col gap-4 max-w-lg mx-auto"
+            >
               <input
-                type="email"
-                placeholder="Enter your email"
+                type="text"
+                placeholder="Your Name"
+                value={heroName}
+                onChange={(e) => setHeroName(e.target.value)}
                 className="flex-grow px-4 py-3 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold"
               />
-              <button className="bg-gold text-charcoal px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-                Get Started
+              <input
+                type="email"
+                placeholder="Your Email"
+                value={heroEmail}
+                onChange={(e) => setHeroEmail(e.target.value)}
+                className="flex-grow px-4 py-3 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold"
+              />
+              <button
+                type="submit"
+                disabled={isHeroSubmitting}
+                className="bg-gold text-charcoal px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                {isHeroSubmitting ? "Submitting..." : "Get Started"}
               </button>
-            </div>
+              {heroMessage && (
+                <p className="text-sm text-center text-gray-600 mt-2">
+                  {heroMessage}
+                </p>
+              )}
+            </form>
           </div>
         </div>
       </section>
@@ -827,16 +867,37 @@ const LandingPage: React.FC = () => {
             Join our mailing list to get tips and updates on how to grow your
             newsletter.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+          <form
+            onSubmit={handleCtaSubmit}
+            className="flex flex-col gap-4 max-w-lg mx-auto"
+          >
             <input
-              type="email"
-              placeholder="Enter your email"
+              type="text"
+              placeholder="Your Name"
+              value={ctaName}
+              onChange={(e) => setCtaName(e.target.value)}
               className="flex-grow px-4 py-3 rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold"
             />
-            <button className="bg-gold text-charcoal px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-              Subscribe
+            <input
+              type="email"
+              placeholder="Your Email"
+              value={ctaEmail}
+              onChange={(e) => setCtaEmail(e.target.value)}
+              className="flex-grow px-4 py-3 rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold"
+            />
+            <button
+              type="submit"
+              disabled={isCtaSubmitting}
+              className="bg-gold text-charcoal px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+            >
+              {isCtaSubmitting ? "Submitting..." : "Subscribe"}
             </button>
-          </div>
+            {ctaMessage && (
+              <p className="text-sm text-center text-gray-400 mt-2">
+                {ctaMessage}
+              </p>
+            )}
+          </form>
         </div>
       </section>
 
@@ -886,8 +947,13 @@ const LandingPage: React.FC = () => {
 
             <div className="text-center flex flex-col">
               <div className="flex-grow">
-                <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center text-charcoal text-4xl font-bold mx-auto mb-6">
-                  JS
+                <div className="relative w-32 h-32 mx-auto mb-6">
+                  <Image
+                    src="/images/joel.jpg"
+                    alt="Joel Salinas"
+                    layout="fill"
+                    className="rounded-full object-cover"
+                  />
                 </div>
                 <h3 className="text-2xl font-bold text-charcoal mb-2">
                   Joel Salinas
@@ -934,14 +1000,6 @@ const LandingPage: React.FC = () => {
             <div>
               <h3 className="font-semibold mb-4">Product</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>
-                  <a
-                    href="#features"
-                    className="hover:text-gold transition-colors"
-                  >
-                    Features
-                  </a>
-                </li>
                 <li>
                   <a href="#" className="hover:text-gold transition-colors">
                     API
