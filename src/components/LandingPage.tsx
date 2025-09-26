@@ -130,7 +130,7 @@ const LandingPage: React.FC = () => {
 
     // Simulate a successful submission
     setIsHeroSubmitting(false);
-    setHeroMessage("Thank you for subscribing!");
+    setHeroMessage("Thank you for joining the waitlist!");
     setHeroName("");
     setHeroEmail("");
 
@@ -153,7 +153,7 @@ const LandingPage: React.FC = () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setIsCtaSubmitting(false);
-    setCtaMessage("Thank you for subscribing!");
+    setCtaMessage("Thank you for joining the waitlist!");
     setCtaName("");
     setCtaEmail("");
 
@@ -339,37 +339,39 @@ const LandingPage: React.FC = () => {
               and grow your subscriber base 3x faster with AI that actually
               understands your brand voice and audience.
             </p>
-            <form
-              onSubmit={handleHeroSubmit}
-              className="flex flex-col gap-4 max-w-lg mx-auto"
-            >
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={heroName}
-                onChange={(e) => setHeroName(e.target.value)}
-                className="flex-grow px-4 py-3 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold"
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={heroEmail}
-                onChange={(e) => setHeroEmail(e.target.value)}
-                className="flex-grow px-4 py-3 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold"
-              />
-              <button
-                type="submit"
-                disabled={isHeroSubmitting}
-                className="bg-gold text-charcoal px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
-              >
-                {isHeroSubmitting ? "Submitting..." : "Get Started"}
-              </button>
-              {heroMessage && (
-                <p className="text-sm text-center text-gray-600 mt-2">
-                  {heroMessage}
-                </p>
-              )}
-            </form>
+            <div className="max-w-lg mx-auto">
+              <p className="text-lg font-semibold text-charcoal mb-4">
+                Join the waitlist for early access!
+              </p>
+              <form onSubmit={handleHeroSubmit} className="flex flex-col gap-4">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={heroName}
+                  onChange={(e) => setHeroName(e.target.value)}
+                  className="flex-grow px-4 py-3 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold"
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  value={heroEmail}
+                  onChange={(e) => setHeroEmail(e.target.value)}
+                  className="flex-grow px-4 py-3 rounded-lg border border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold"
+                />
+                <button
+                  type="submit"
+                  disabled={isHeroSubmitting}
+                  className="bg-gold text-charcoal px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  {isHeroSubmitting ? "Submitting..." : "Join Waitlist"}
+                </button>
+                {heroMessage && (
+                  <p className="text-sm text-center text-gray-600 mt-2">
+                    {heroMessage}
+                  </p>
+                )}
+              </form>
+            </div>
           </div>
         </div>
       </section>
@@ -861,11 +863,11 @@ const LandingPage: React.FC = () => {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-charcoal">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-6 font-serif">
-            Ready to transform your newsletter?
+            Get Early Access
           </h2>
           <p className="text-xl text-gray-300 mb-8">
-            Join our mailing list to get tips and updates on how to grow your
-            newsletter.
+            Be the first to know when we launch. Join the waitlist for exclusive
+            updates.
           </p>
           <form
             onSubmit={handleCtaSubmit}
@@ -890,7 +892,7 @@ const LandingPage: React.FC = () => {
               disabled={isCtaSubmitting}
               className="bg-gold text-charcoal px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              {isCtaSubmitting ? "Submitting..." : "Subscribe"}
+              {isCtaSubmitting ? "Submitting..." : "Join Waitlist"}
             </button>
             {ctaMessage && (
               <p className="text-sm text-center text-gray-400 mt-2">
