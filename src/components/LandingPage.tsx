@@ -122,19 +122,28 @@ const LandingPage: React.FC = () => {
     setIsHeroSubmitting(true);
     setHeroMessage("Submitting...");
 
-    // This is a placeholder for a real API call.
-    // In a real application, you would send the data to your backend,
-    // which would then securely forward it to the Typeform API.
-    // Directly calling a third-party API from the client is not recommended for production.
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: heroName, email: heroEmail }),
+      });
 
-    // Simulate a successful submission
-    setIsHeroSubmitting(false);
-    setHeroMessage("Thank you for joining the waitlist!");
-    setHeroName("");
-    setHeroEmail("");
+      if (!response.ok) {
+        throw new Error("Something went wrong.");
+      }
 
-    // Reset the message after a few seconds
+      setIsHeroSubmitting(false);
+      setHeroMessage("Thank you for joining the waitlist!");
+      setHeroName("");
+      setHeroEmail("");
+    } catch (error) {
+      setIsHeroSubmitting(false);
+      setHeroMessage("Oops! Something went wrong. Please try again.");
+    }
+
     setTimeout(() => {
       setHeroMessage("");
     }, 5000);
@@ -149,13 +158,27 @@ const LandingPage: React.FC = () => {
     setIsCtaSubmitting(true);
     setCtaMessage("Submitting...");
 
-    // Placeholder for API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: ctaName, email: ctaEmail }),
+      });
 
-    setIsCtaSubmitting(false);
-    setCtaMessage("Thank you for joining the waitlist!");
-    setCtaName("");
-    setCtaEmail("");
+      if (!response.ok) {
+        throw new Error("Something went wrong.");
+      }
+
+      setIsCtaSubmitting(false);
+      setCtaMessage("Thank you for joining the waitlist!");
+      setCtaName("");
+      setCtaEmail("");
+    } catch (error) {
+      setIsCtaSubmitting(false);
+      setCtaMessage("Oops! Something went wrong. Please try again.");
+    }
 
     setTimeout(() => {
       setCtaMessage("");
